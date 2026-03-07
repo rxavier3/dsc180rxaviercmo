@@ -143,7 +143,7 @@ body {
 
 h1 { font-size: 38px; margin-bottom: 20px; color: var(--text); }
 h2 { font-size: 26px; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-top: 40px; }
-h3 { font-size: 20px; color: var(--accent); margin-top: 30px; }
+h3 { font-size: 20px; color: var(--text); margin-top: 30px; }
 p { line-height: 1.7; color: var(--subtle); margin-bottom: 20px; white-space: pre-wrap; }
 
 details {
@@ -262,7 +262,8 @@ footer { text-align: center; padding: 40px; color: var(--subtle); font-size: 13p
   <h1>Introduction</h1>
   
   <div style="margin-bottom: 40px;">
-    <h2 style="border-bottom: none; color: var(--accent); margin-bottom: 10px;">Goal + Why It Matters</h2>
+    <h2 style="border-bottom: none; margin-bottom: 10px;">Elevator Pitch</h2>
+
     
     <p><strong>Goal:</strong> In a world of misinformation, it is easy for citizens desiring to be informed to be easily led astray. Our goal is to basically create a tool that does most of the work in letting users identify the veracity news article they are reading.</p>
     
@@ -270,7 +271,7 @@ footer { text-align: center; padding: 40px; color: var(--subtle); font-size: 13p
   </div>
 
   <div style="border-top: 1px solid var(--line); padding-top: 10px;">
-    <h2 style="border-bottom: none; color: var(--accent); margin-bottom: 10px;">Problem Statement + Users/Stakeholders Concerned</h2>
+    <h2 style="border-bottom: none; margin-bottom: 10px;">Problem Statement + Users/Stakeholders Concerned</h2>
     
     <p><strong>Problem Statement:</strong> The problem is that there is a vast amount of misinformation spread throughout various channels of media, and users need a tool that quickly and accurately helps them verify the article on a variety of factors.</p>
     
@@ -331,6 +332,18 @@ style="width:60%; height:auto; border-radius:8px; margin: 20px auto 40px auto; b
       <p>Our initial testing dataset was the LIAR-Plus dataset, a dataset of statements and their truth label along with metadata like political affiliation, and the state the speaker is from. This was used to train the BERT model.
 
 Our final dataset was a self-curated dataset of various news articles, where we self-scored each article on each factuality factor. This was used to test the agentic classifier, and generate our final results table.</p>
+
+    <details>
+  <summary>Previous Iterations</summary>
+  <img src="oldcode.jpeg" alt="Old code" style="width:60%; height:auto; border-radius:8px; margin: 15px auto; border: 1px solid var(--line); display:block;">
+  <p>Our initial iteration ran all of the predictive functions at once, and then fed it to an LLM. Switching to an Agentic Structure allows for greater adaptability and scalability.</p>
+      </details>
+  <details>
+    <summary>Future Considerations</summary>
+  <p>We would like to work with more factuality factors, specifically Psychology Utility or analyzing if the author is manipulating the audience with psychological methods. We also would like to add a larger RAG database.</p>
+
+</details>
+
     </div>
 
 <div id="page-demo" class="page-content">
@@ -365,7 +378,7 @@ Then, at the bottom right of the page, there is a JSON block, where the raw metr
 </div>
 
     <div id="page-results" class="page-content">
-      <h1>Results & Implications</h1>
+      <h1>Results</h1>
       <img src="table.jpeg" alt="Comparison table of prompt accuracy scores across different agentic frameworks" 
      style="width:60%; height:auto; border-radius:8px; margin: 20px auto 40px auto; border: 1px solid var(--line); display: block;"
       <details>
@@ -379,12 +392,14 @@ Then, at the bottom right of the page, there is a JSON block, where the raw metr
           <li><span class="metric-name">Complex:</span> A highly detailed prompt, as compared to simple.</li>
         </ul>
       </details>
-
+      <p>This is our table of results, where each row represents a different type of prompt used and each column represents the individual factuality factor. Each entry represents the accuracy achieved on that specific factuality factor with the prompt. Note the test dataset was a self-labeled dataset of various news articles.</p>
       <p>The baseline accuracy we hoped to achieve was getting at least 0.4 on a factuality factor. Amongst our high scores, none of them are below 0.4. If we compare all the prompts, on average, the best performing prompt is, on average, Complex + RAG + Function Calling and the worst was FCoT 1.</p>
 
-      <h2>Implications & Next Steps</h2>
+      <h2>Implications, Deployment Considerations, & Next Steps</h2>
       <p>This product is vital in shaping how citizens make decisions, whether they are voters, politicians, or anyone else. If this product is not accurate or misleading itself, it could further instigate and drive false information across communities and nations.</p>
+      <p>When deploying the project, we need to consider things like API costs, disclaimer statements, and a way for users to report anomalies found.</p>
       <p>The next steps would be to get legal advice from a professional on this classifier, and after promote this through popular forums and news websites. Another step would be to get feedback from at least 1000 users on the website itself before a full rollout.</p>
+
     </div>
 
     <div id="page-contributions-citations" class="page-content">
@@ -394,7 +409,7 @@ Then, at the bottom right of the page, there is a JSON block, where the raw metr
   <h3>What We Built:</h3>
   <p>Agentic Infrastructure with Google ADK, Manager Agent + Prompt, Political Bias Agent, Sensationalism Agent, custom BERT model, Web Search Agent, Gradio Webpage.</p>
   
-  <h3>What was Reused:</h3>
+  <h3>What Was Reused:</h3>
   <p>Base BERT model, RapidFuzz for bigram matching/processing, VADER Sentiment Analyzer, MXnet for text embeddings.</p>
 
   <div style="margin-top: 50px;"></div>
