@@ -10,323 +10,498 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --text: #f8fafc;
-      --subtle: #94a3b8;
-      --accent: #60a5fa;
-      --btn-bg: #f8fafc;
-      --btn-text: #0f172a;
-      --line: #334155;
-      --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-    }
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #f8fafc;
+  --subtle: #94a3b8;
+  --accent: #60a5fa;
+  --line: #334155;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
 
-    html { scroll-behavior: smooth; }
+html { 
+  scroll-behavior: smooth; 
+}
 
-    body {
-      margin: 0;
-      font-family: 'Outfit', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding-top: 70px; 
-      font-weight: 300;
-    }
 
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 70px;
-      background: var(--card);
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      padding: 0 30px;
-      box-sizing: border-box;
-      z-index: 1000;
-    }
+body {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+  font-weight: 300;
+  padding-top: 0;
+}
 
-    .toggle {
-      background: transparent;
-      border: none;
-      font-size: 15px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      color: var(--text);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: background 0.2s;
-    }
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 220px;
+  background: var(--card);
+  
+  padding: 40px 30px;
+  box-sizing: border-box;
+  z-index: 1000;
+}
 
-    .toggle:hover {
-      background: var(--bg);
-    }
+.page-topbar {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px 0 80px; 
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
 
-    .header-title {
-      margin-left: 20px;
-      font-weight: 500;
-      color: var(--subtle);
-      font-size: 13px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
+.main-wrapper {
+  margin-left: 220px; 
+  width: calc(100% - 220px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  position: relative;
+}
 
-    .sidebar {
-      position: fixed;
-      top: 70px;
-      left: 0;
-      height: calc(100vh - 70px);
-      width: 260px;
-      background: var(--card);
-      border-right: 1px solid var(--line);
-      padding: 40px 30px;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 999;
-      box-shadow: var(--shadow);
-      box-sizing: border-box;
-    }
 
-    .sidebar.collapsed {
-      transform: translateX(-100%);
-      box-shadow: none;
-    }
 
-    .sidebar h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--subtle);
-      margin-bottom: 24px;
-      font-weight: 600;
-    }
+.nav a {
+  display: block;
+  padding: 10px 0;
+  color: var(--subtle);
+  text-decoration: none;
+  font-size: 15px;
+  transition: 0.2s;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+}
 
-    .nav a {
-      display: block;
-      padding: 10px 0;
-      color: var(--subtle);
-      text-decoration: none;
-      font-size: 15px;
-      transition: color 0.2s, padding-left 0.2s;
-      font-weight: 400;
-    }
+.nav a:hover, .nav a.active {
+  color: var(--text);
+  padding-left: 8px;
+}
 
-    .nav a:hover {
-      color: var(--text);
-      padding-left: 8px;
-    }
+.nav a[target="_blank"] {
+  color: var(--accent);
+  opacity: 0.8;
+}
 
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 60px;
-      background: var(--card);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      box-sizing: border-box;
-      border: 1px solid var(--line);
-    }
+.nav a[target="_blank"]:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
 
-    h1, h2 {
-      font-weight: 500;
-      color: var(--text);
-    }
+.search-input {
+  width: 300px;
+  padding: 10px 15px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
 
-    h1 {
-      font-size: 44px;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-      line-height: 1.2;
-    }
+.search-input:focus {
+  border-color: var(--accent);
+}
 
-    h2 {
-      font-size: 26px;
-      letter-spacing: -0.01em;
-      margin-top: 60px;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--line);
-    }
+#searchResults {
+  display: none;
+  position: absolute;
+  top: 55px;
+  right: 0;
+  width: 400px;
+  max-height: 450px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  overflow-y: auto;
+  z-index: 1100;
+}
 
-    p {
-      font-size: 17px;
-      color: var(--subtle);
-      line-height: 1.7;
-      margin-bottom: 20px;
-    }
+.page-content { 
+  display: none; 
+}
 
-    .hero { margin-bottom: 40px; }
+.page-content.active { 
+  display: block; 
+}
 
-    .divider {
-      height: 1px;
-      background: var(--line);
-      margin: 50px 0;
-    }
+h1 { font-size: 38px; margin-bottom: 20px; color: var(--text); }
+h2 { font-size: 26px; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-top: 40px; }
+h3 { font-size: 20px; color: var(--accent); margin-top: 30px; }
+p { line-height: 1.7; color: var(--subtle); margin-bottom: 20px; white-space: pre-wrap; }
 
-    .image-placeholder {
-      width: 100%;
-      height: 300px;
-      background: var(--bg);
-      border: 1px dashed var(--subtle);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--subtle);
-      font-size: 14px;
-      margin: 30px 0;
-      font-weight: 400;
-      letter-spacing: 0.02em;
-    }
+details {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
 
-    details {
-      margin-top: 24px;
-      background: var(--bg);
-      border-radius: 8px;
-      padding: 20px;
-      border: 1px solid var(--line);
-    }
+summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text);
+  outline: none;
+  font-family: 'Outfit', sans-serif;
+}
 
-    summary {
-      cursor: pointer;
-      font-weight: 500;
-      color: var(--text);
-      outline: none;
-      font-size: 16px;
-      letter-spacing: -0.01em;
-    }
+.metric-list { list-style: none; padding-left: 0; margin-top: 15px; }
+.metric-list li { margin-bottom: 12px; border-bottom: 1px solid var(--line); padding-bottom: 8px; font-size: 15px; color: var(--subtle); }
+.metric-name { color: var(--accent); font-weight: 500; }
 
-    details p {
-      margin-top: 16px;
-      margin-bottom: 0;
-      font-size: 15px;
-    }
+.citation-item { font-size: 14px; margin-bottom: 15px; color: var(--subtle); border-left: 2px solid var(--accent); padding-left: 15px; }
 
-    .links-list a {
-      display: inline-block;
-      margin-bottom: 12px;
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 400;
-    }
+footer { text-align: center; padding: 40px; color: var(--subtle); font-size: 13px; width: 100%; }
+.container {
+  max-width: 2000px; 
+  width: 100%;
+  padding: 40px 60px 60px 80px; 
+  box-sizing: border-box;
+  margin-left: 0; 
+}
+@media (max-width: 768px) {
+  .menu-btn {
+    display: inline-block;
+  }
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar.collapsed { 
+    transform: translateX(0);
+    box-shadow: 0 0 50px rgba(0,0,0,0.7);
+  }
 
-    .links-list a:hover {
-      text-decoration: underline;
-    }
+  .header, .main-wrapper {
+    width: 100%;
+    left: 0;
+    margin-left: 0;
+    padding: 0 15px;
+  }
 
-    footer {
-      margin-top: 80px;
-      padding-top: 30px;
-      border-top: 1px solid var(--line);
-      font-size: 14px;
-      color: var(--subtle);
-      text-align: center;
-      line-height: 1.8;
-      font-weight: 400;
-    }
 
-    @media (max-width: 768px) {
-      .container {
-        margin: 20px;
-        padding: 40px 24px;
-      }
-      h1 {
-        font-size: 34px;
-      }
-      .header-title {
-        display: none;
-      }
-    }
+  .search-input {
+    width: 130px; 
+  }
+  
+  #searchResults, #searchOverlay {
+    width: calc(100vw - 30px);
+    right: 15px;
+  }
+
+  h1 { font-size: 28px; }
+  h2 { font-size: 22px; }
+  
+  .header > div {
+    display: none; 
+  }
+}
   </style>
 </head>
-
 <body>
 
-  <header class="header">
-    <button class="toggle" onclick="toggleSidebar()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-      Menu
-    </button>
-    <div class="header-title">Chris Mo • Ryan Xavier</div>
-  </header>
 
-  <aside id="sidebar" class="sidebar collapsed">
-    <h3>Contents</h3>
-    <nav class="nav">
-      <a href="#overview" onclick="toggleSidebar()">Overview</a>
-      <a href="#intro" onclick="toggleSidebar()">Introduction</a>
-      <a href="#methods" onclick="toggleSidebar()">Methods</a>
-      <a href="#results" onclick="toggleSidebar()">Results & Conclusion</a>
-      <a href="#links" onclick="toggleSidebar()">Links</a>
-    </nav>
-  </aside>
-
-  <div id="container" class="container">
-
-    <section id="overview" class="hero">
-      <h1>Misinformation / Disinformation Detection Using Agentic AI</h1>
-      <p class="tagline"></p>
-    </section>
-
-    <div class="divider"></div>
-
-    <section id="intro">
-      <h2>Introduction</h2>
-      <p></p>
-      <div class="image-placeholder"></div>
-      <p></p>
-    </section>
-
-    <section id="methods">
-      <h2>Methods</h2>
-      <p></p>
-      <div class="image-placeholder"></div>
-      <p></p>
-      <details>
-        <summary> Detailed Explanation and Statistics </summary>
-        <p></p>
-      </details>
-    </section>
-
-    <section id="results">
-      <h2>Results & Conclusion</h2>
-      <p></p>
-      <div class="image-placeholder"></div>
-      <p></p>
-    </section>
-
-    <section id="links" class="links-list">
-      <h2>Project Links</h2>
-      <p>
-        <a href="#"> View the Full Report</a><br>
-        <a href="#"> View the Code Repository</a><br>
-        <a href="#"> View the Web Interface</a>
-      </p>
-    </section>
-
-    <footer>
-      <strong>DSC 180AB • Winter 2026</strong><br>
-      Mentees: Chris Mo, Ryan Xavier • Mentors: Sam Lau, Ali Arsanjani
-    </footer>
-
+<div id="searchOverlay" style="display: none; position: fixed; top: 75px; right: 30px; width: 350px; max-height: 500px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); z-index: 1001; flex-direction: column; overflow: hidden;">
+  <input type="text" id="searchInput" placeholder="Type to search..." oninput="liveSearch()" style="margin: 15px; padding: 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; outline: none;">
+  <div id="searchResults" style="overflow-y: auto; padding: 0 15px 15px 15px; font-size: 14px;">
+    <p style="color: var(--subtle); text-align: center;">Start typing to see results...</p>
   </div>
+</div>
+
+  <aside id="sidebar" class="sidebar">
+    <nav class="nav">
+  <a onclick="showPage('intro')">Introduction</a>
+  <a onclick="showPage('methods')">Methods</a>
+  <a onclick="showPage('demo')">Demonstration</a>
+  <a onclick="showPage('results')">Results & Implications</a>
+  <a onclick="showPage('contributions-citations')">Contributions and Citations</a>
+  
+  <div style="margin: 20px 0 10px 0; border-top: 1px solid var(--line); opacity: 0.3;"></div>
+  
+  <a href="#" target="_blank">Web Application ↗</a>
+  <a href="#" target="_blank"> Report ↗</a>
+  <a href="#" target="_blank"> Poster ↗</a>
+</nav>
+  </aside>
+<div class="main-wrapper">
+    
+    <div class="page-topbar">
+      <div style="font-size: 13px; color: var(--subtle); text-transform: uppercase; letter-spacing: 1px;">
+        Chris Mo • Ryan Xavier
+      </div>
+      
+      <div style="position: relative;">
+        <input type="text" id="searchInput" placeholder="Search project content..." oninput="liveSearch()" class="search-input">
+        <div id="searchResults" style="display: none; position: absolute; top: 45px; right: 0; width: 400px; max-height: 450px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; box-shadow: var(--shadow); overflow-y: auto; z-index: 1100;"></div>
+      </div>
+    </div>
+
+    <main class="container">
+
+  <div>
+
+    <div id="page-intro" class="page-content active">
+  <h1>Introduction</h1>
+  
+  <div style="margin-bottom: 40px;">
+    <h2 style="border-bottom: none; color: var(--accent); margin-bottom: 10px;">Goal + Why It Matters</h2>
+    
+    <p><strong>Goal:</strong> In a world of misinformation, it is easy for citizens desiring to be informed to be easily led astray. Our goal is to basically create a tool that does most of the work in letting users identify the veracity news article they are reading.</p>
+    
+    <p><strong>Why It Matters:</strong> In today’s information age, voters and political leaders heavily base their decisions off of the news. Thus, helping our target audience identify the truthfulness of their news helps them make more accurate decisions, and preventing the spread of inflammatory rumors.</p>
+  </div>
+
+  <div style="border-top: 1px solid var(--line); padding-top: 10px;">
+    <h2 style="border-bottom: none; color: var(--accent); margin-bottom: 10px;">Problem Statement + Users/Stakeholders Concerned</h2>
+    
+    <p><strong>Problem Statement:</strong> The problem is that there is a vast amount of misinformation spread throughout various channels of media, and users need a tool that quickly and accurately helps them verify the article on a variety of factors.</p>
+    
+    <p><strong>Users/Stakeholders Concerned:</strong> The primary users/stakeholders in this project are politicians, political theorists, voters, and on a general note informed citizens of any nation.</p>
+  </div>
+</div>
+
+    <div id="page-methods" class="page-content">
+      <h1>Methods</h1>
+      
+      <img src="flowchart.jpeg" alt="Flowchart showing the Agentic AI architecture for news verification" 
+style="width:60%; height:auto; border-radius:8px; margin: 20px auto 40px auto; border: 1px solid var(--line); display: block;"
+
+      <h3>General Approach:</h3>
+      <p>After the user inputs the article, a manager agent driven by the Gemini LLM, coordinates multiple worker agents to derive specific metrics/insights from the text, then the manager agent makes a final classification + report on the text itself based on the worker agents’ results.</p>
+      
+      <h3>Scope:</h3>
+      <p>There is a relatively large amount of factuality factors, or abstract concepts, to evaluate the veracity of a news article against. However, for this project, our scope is limited to 6 factuality factors.</p>
+
+      <h2>Factuality Factors (Collapsible)</h2>
+      <details>
+        <summary>Factuality Factor 1: Authenticity</summary>
+        <p>Authenticity involves cross referencing and validation of the article’s truthfulness.</p>
+        <p><strong>Method:</strong> We built a worker agent that integrates a search engine API to search the input across the internet, and cross-reference the content with other articles across the internet.</p>
+      </details>
+      <details>
+        <summary>Factuality Factor 2: Sensationalism</summary>
+        <p>Sensationalism involves quantifying the emotional intensity of the article, i.e. amount of inflammatory remarks/statements made, hyperboles, and more intense forms of expression.</p>
+        <p><strong>Method:</strong> We built the worker agent upon a Vader Sentiment Analyzer, a Python module that scores text on its emotional intensity.</p>
+      </details>
+      <details>
+        <summary>Factuality Factor 3: Political Bias</summary>
+        <p>Does the article overly lean to a particular location on the political spectrum? To be more specific, does the article indicate signs of a double standard for one political side as opposed to another?</p>
+        <p><strong>Method:</strong> We compiled a list of popular phrases spoken on the floors of the Senate and House of Representatives along with the political party of the speaker who said the phrase, and check if the input has matches. We also check the amount of statistics the article uses through searching the article itself for statistics used.</p>
+      </details>
+      <details>
+        <summary>Factuality Factor 4: Spam</summary>
+        <p>Spam involves the detection of high-volume words, phrases, or content in general within an article to drive user engagement and click counts on the internet.</p>
+        <p><strong>Method:</strong> We used an existing tool from hugging face that recognizes spam messages to return a score between 0 and 1 of how much “spam” the article employs.</p>
+      </details>
+      <details>
+        <summary>Factuality Factor 5: Confirmation Bias</summary>
+        <p>Confirmation bias involves multiple factors, such as checking if the article only supports one viewpoint, ignoring other viewpoints and denying evidence for such viewpoints. It also involves where complex issues are reduced to binary choices to reaffirm the target audience’s beliefs.</p>
+        <p><strong>Method:</strong> We explicitly ask the LLM to analyze the article itself through the prompt, and determine this factor.</p>
+      </details>
+      <details>
+        <summary>Factuality Factor 6: Short-Term Utility</summary>
+        <p>Is the content optimized for just immediate shareability as opposed to depth or accuracy? Basically, we are checking if the content is written for virality as opposed to informing the audience.</p>
+        <p><strong>Method:</strong> We explicitly ask the LLM to analyze the article itself through the prompt, and determine this factor.</p>
+      </details>
+      <details>
+        <summary>Factuality Factor 7: BERT/Sentence Transformers</summary>
+        <p>BERT stands for Bidirectional Encoder Representations from Transformers. Essentially, it is a model that learns the meaning of words based on the words’ context in a sentence. Now, think of sentence transformers as modified BERT models that understand sentences as a whole, not just words.</p>
+        <p><strong>Method:</strong> A software tool, MXNet, was used to generate numerical representations of text, then used a BERT model to classify the text into one of the truth categories.</p>
+      </details>
+
+      <h3>Datasets:</h3>
+      <p>Our initial testing dataset was the LIAR-Plus dataset, a dataset of statements and their truth label along with metadata like political affiliation, and the state the speaker is from. This was used to train the BERT model.
+
+Our final dataset was a self-curated dataset of various news articles, where we self-scored each article on each factuality factor. This was used to test the agentic classifier, and generate our final results table.</p>
+    </div>
+
+<div id="page-demo" class="page-content">
+  <h1>Instructions</h1>
+
+  <div style="background: rgba(96, 165, 250, 0.1); border: 1px solid var(--accent); padding: 25px; border-radius: 8px; margin-bottom: 40px;">
+    <h3 style="margin-top: 0;">How to use the application:</h3>
+    <ol style="line-height: 1.8; color: var(--text); padding-left: 20px;">
+      <li>Take any text, and paste it into the text box under “Input Article”.</li>
+      <li>Click the button “Run Analysis”.</li>
+      <li>Soon, your results will display under Manager Verdict, on the right side of the screen.</li>
+    </ol>
+  </div>
+
+  <h3>How to Interpret The Results </h3>
+  <p>After your input processes, you will see a section called manager verdict. This gives the truth category of your article, plus a paragraph explaining the reasoning behind the classification.
+
+Below, in the table, each factor is scored, and has a concise sentence to explain the score.
+
+Then, at the bottom right of the page, there is a JSON block, where the raw metrics from the worker agents are provided. Below is a more detailed description:</p>
+
+  <details>
+    <summary>Metric Definitions (JSON Block Breakdown)</summary>
+    <ul class="metric-list">
+      <li><span class="metric-name">“bert”:</span> Refers to the BERT scores; within it is each truth category and the probability that the input text falls into the respective category.</li>
+      <li><span class="metric-name">“stat_entity_count”:</span> Refers to the amount of statistics provided by the input.</li>
+      <li><span class="metric-name">“conservative_bigrams” and “liberal_bigrams”:</span> Refer to the number of matches to the conservative and liberal bigram data, respectively.</li>
+      <li><span class="metric-name">“emotional intensity”:</span> Refers to the Vader intensity score from -1 to 1, where -1 is very negative, 0 is neutral, and 1 is very positive.</li>
+      <li><span class="metric-name">“spam_probability”:</span> Refers to the score from the Hugging Face tool, from 0 to 1, where 0 is no spam and 1 being almost entirely spam.</li>
+    </ul>
+  </details>
+</div>
+
+    <div id="page-results" class="page-content">
+      <h1>Results & Implications</h1>
+      <img src="table.jpeg" alt="Comparison table of prompt accuracy scores across different agentic frameworks" 
+     style="width:60%; height:auto; border-radius:8px; margin: 20px auto 40px auto; border: 1px solid var(--line); display: block;"
+      <details>
+        <summary>Definition of Key Terms in the Results Plot</summary>
+        <ul class="metric-list">
+          <li><span class="metric-name">RAG:</span> Retrieval Augmented Generation is a framework that references information from a database for an LLM to use.</li>
+          <li><span class="metric-name">Function/Function Calling:</span> It is a technique that allows the LLM to use external APIs and functions through generated JSON representation.</li>
+          <li><span class="metric-name">CoT:</span> Chain of Thought, or CoT, is when the model explains its reasoning process to the user.</li>
+          <li><span class="metric-name">FCoT:</span> Fractal Chain of Thought is when the model’s reasoning is forced to be recursive and corrective.</li>
+          <li><span class="metric-name">Simple:</span> A basic prompt that allows the framework to analyze the text.</li>
+          <li><span class="metric-name">Complex:</span> A highly detailed prompt, as compared to simple.</li>
+        </ul>
+      </details>
+
+      <p>The baseline accuracy we hoped to achieve was getting at least 0.4 on a factuality factor. Amongst our high scores, none of them are below 0.4. If we compare all the prompts, on average, the best performing prompt is, on average, Complex + RAG + Function Calling and the worst was FCoT 1.</p>
+
+      <h2>Implications & Next Steps</h2>
+      <p>This product is vital in shaping how citizens make decisions, whether they are voters, politicians, or anyone else. If this product is not accurate or misleading itself, it could further instigate and drive false information across communities and nations.</p>
+      <p>The next steps would be to get legal advice from a professional on this classifier, and after promote this through popular forums and news websites. Another step would be to get feedback from at least 1000 users on the website itself before a full rollout.</p>
+    </div>
+
+    <div id="page-contributions-citations" class="page-content">
+  <h1>Contributions and Citations</h1>
+  
+  <h2>Contributions</h2>
+  <h3>What We Built:</h3>
+  <p>Agentic Infrastructure with Google ADK, Manager Agent + Prompt, Political Bias Agent, Sensationalism Agent, custom BERT model, Web Search Agent, Gradio Webpage.</p>
+  
+  <h3>What was Reused:</h3>
+  <p>Base BERT model, RapidFuzz for bigram matching/processing, VADER Sentiment Analyzer, MXnet for text embeddings.</p>
+
+  <div style="margin-top: 50px;"></div>
+
+  <h2>Citations</h2>
+  
+  <h3>Textbooks and Academic Papers</h3>
+  <div class="citation-item">Arsanjani, Ali. "Misinformation Detection Ranking and Mitigation." (Textbook).</div>
+  <div class="citation-item">Wang, William Yang. "“liar, liar pants on fire”: A new benchmark dataset for fake news detection." Proceedings of the 55th annual meeting of the association for computational linguistics (volume 2: short papers). 2017.</div>
+  <div class="citation-item">Tariq Alhindi, Savvas Petridis, and Smaranda Muresan. "Where is Your Evidence: Improving Fact-checking by Justification Modeling." In Proceedings of the First Workshop on Fact Extraction and VERification (FEVER), pages 85–90, Brussels, Belgium. 2018. Association for Computational Linguistics.</div>
+
+  <h3>Models and Core AI Components</h3>
+  <div class="citation-item">BERT Base Model: Devlin, Jacob, et al. "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding." Google Research, 2018, arXiv:1810.04805. BERT-base-uncased.</div>
+  <div class="citation-item">SMS Spam Detection Model: "mrm8488/bert-tiny-finetuned-sms-spam-detection." Hugging Face, 2020, https://huggingface.co/mrm8488/bert-tiny-finetuned-sms-spam-detection.</div>
+  <div class="citation-item">Gemini Models (Flash & Pro): Google. Gemini 3 Flash & Pro Preview. Google AI, 2024, https://gemini.google.com.</div>
+  <div class="citation-item">VADER Sentiment Analysis: Hutto, Clayton J., and Eric Gilbert. "VADER: A Parsimonious Rule-Based Model for Sentiment Analysis of Social Media Text." Proceedings of the Eighth International AAAI Conference on Weblogs and Social Media, 2014, pp. 216-25.</div>
+  
+  <h3>NLP and Software Libraries</h3>
+  <div class="citation-item">spaCy (en_core_web_md): Honnibal, Matthew, and Ines Montani. spaCy: Industrial-strength Natural Language Processing in Python. Version 3.x, Explosion AI, 2020, https://spacy.io.</div>
+  <div class="citation-item">Gradio UI: Abid, Abubakar, et al. "Gradio: Hassle-Free Shareable UI Components for Your Machine Learning Model." arXiv, 2019, https://gradio.app.</div>
+  <div class="citation-item">RapidFuzz: "RapidFuzz: Rapid Fuzzy String Matching in Python and C++." GitHub, 2024, https://github.com/rapidfuzz/RapidFuzz.</div>
+</div>
+
+  <footer>
+    <strong>DSC 180AB • Winter 2026</strong><br>
+    Mentees: Chris Mo, Ryan Xavier • Mentors: Sam Lau, Ali Arsanjani
+  </footer>
 
   <script>
     function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("collapsed");
+      document.getElementById("sidebar").classList.toggle("collapsed");
     }
-  </script>
 
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page-content');
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + pageId).classList.add('active');
+      const links = document.querySelectorAll('.nav a');
+      links.forEach(l => l.classList.remove('active'));
+      window.scrollTo(0, 0);
+    }
+    function toggleSearchOverlay() {
+  const overlay = document.getElementById('searchOverlay');
+  const isHidden = overlay.style.display === 'none';
+  overlay.style.display = isHidden ? 'flex' : 'none';
+  if (isHidden) document.getElementById('searchInput').focus();
+}
+
+function liveSearch() {
+  const activeInput = document.activeElement;
+  const query = activeInput.value ? activeInput.value.toLowerCase() : '';
+  
+  const allResultDivs = document.querySelectorAll('#searchResults');
+  
+  if (!query) {
+    allResultDivs.forEach(div => div.style.display = 'none');
+    return;
+  }
+
+  let html = '';
+  const pages = document.querySelectorAll('.page-content');
+  
+  const titles = {
+    'page-intro': 'Introduction',
+    'page-methods': 'Methods',
+    'page-demo': 'Demonstration',
+    'page-results': 'Results & Implications',
+    'page-contributions-citations': 'Contributions and Citations'
+  };
+
+  pages.forEach(page => {
+    const textElements = page.querySelectorAll('h1, h2, h3, p, li, strong, summary, .citation-item');
+    
+    textElements.forEach(el => {
+      const text = el.innerText;
+      if (text.toLowerCase().includes(query)) {
+        const index = text.toLowerCase().indexOf(query);
+        const start = Math.max(0, index - 40);
+        const end = Math.min(text.length, index + query.length + 40);
+        let snippet = text.substring(start, end);
+        
+        const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(${safeQuery})`, 'gi');
+        const highlighted = snippet.replace(regex, '<span style="color:var(--text); font-weight:600; background:rgba(96, 165, 250, 0.2); border-radius:3px; padding:0 2px;">$1</span>');
+        
+        const pageId = page.id.replace('page-', '');
+        const displayTitle = titles[page.id] || 'Result';
+
+        html += `
+          <div style="padding: 12px 15px; border-bottom: 1px solid var(--line); cursor: pointer; transition: background 0.2s;" 
+               onmouseover="this.style.background='var(--line)'" 
+               onmouseout="this.style.background='transparent'"
+               onclick="showPage('${pageId}'); document.querySelectorAll('#searchResults').forEach(d => d.style.display='none');">
+            <div style="font-weight: bold; color: var(--text); font-size: 15px;">${displayTitle}</div>
+            <div style="color: var(--subtle); font-size: 13px; margin-top: 4px; font-weight: 400;">...${highlighted}...</div>
+          </div>`;
+      }
+    });
+  });
+
+  const finalHtml = html || '<div style="padding: 15px; color: var(--subtle); text-align: center;">No matches found.</div>';
+  
+  allResultDivs.forEach(div => {
+    div.innerHTML = finalHtml;
+    div.style.display = 'block';
+  });
+}
+  </script>
 </body>
 </html>
