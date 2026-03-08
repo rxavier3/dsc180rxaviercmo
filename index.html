@@ -301,7 +301,15 @@ footer { text-align: center; padding: 40px; color: var(--subtle); font-size: 13p
     <p><strong>Problem Statement:</strong> The problem is that there is a vast amount of misinformation spread throughout various channels of media, and users need a tool that quickly and accurately helps them verify the article on a variety of factors.</p>
     
     <p><strong>Users/Stakeholders Concerned:</strong> The primary users/stakeholders in this project are politicians, political theorists, voters, and on a general note informed citizens of any nation.</p>
+    </div>
   </div>
+  <div id="dynamic-nav" style="display: flex; justify-content: space-between; margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--line);">
+      <button id="prevBtn" onclick="navToAdjacent(-1)" style="background: var(--card); border: 1px solid var(--line); color: var(--text); padding: 12px 20px; border-radius: 8px; cursor: pointer; font-family: 'Outfit'; transition: 0.2s;">
+        ← Previous
+      </button>
+      <button id="nextBtn" onclick="navToAdjacent(1)" style="background: var(--accent); border: none; color: #0f172a; font-weight: 600; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-family: 'Outfit'; transition: 0.2s;">
+        Next →
+      </button>
 </div>
 
     <div id="page-methods" class="page-content">
@@ -404,7 +412,7 @@ Then, at the bottom right of the page, there is a JSON block, where the raw metr
 
     <div id="page-results" class="page-content">
       <h1>Results</h1>
-      <img src="table.jpeg" alt="Comparison table of prompt accuracy scores across different agentic frameworks" 
+      <img src="table.png" alt="Comparison table of prompt accuracy scores across different agentic frameworks" 
      style="width:60%; height:auto; border-radius:8px; margin: 20px auto 40px auto; border: 1px solid var(--line); display: block;"
       <details>
         <summary>Definition of Key Terms in the Results Plot</summary>
@@ -493,6 +501,74 @@ Then, at the bottom right of the page, there is a JSON block, where the raw metr
   overlay.style.display = isHidden ? 'flex' : 'none';
   if (isHidden) document.getElementById('searchInput').focus();
 }
+
+// Define the order of your sections
+const pageOrder = ['intro', 'methods', 'demo', 'results', 'contributions-citations'];
+
+// Readable labels for the buttons
+const pageLabels = {
+  'intro': 'Introduction',
+  'methods': 'Methods',
+  'demo': 'Demonstration',
+  'results': 'Results',
+  'contributions-citations': 'Citations'
+};
+
+function updateNavButtons(currentPageId) {
+  const currentIndex = pageOrder.indexOf(currentPageId);
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  // Handle Previous Button
+  if (currentIndex > 0) {
+    const prevId = pageOrder[currentIndex - 1];
+    prevBtn.style.visibility = 'visible';
+    prevBtn.innerText = `← ${pageLabels[prevId]}`;
+  } else {
+    prevBtn.style.visibility = 'hidden';
+  }
+
+  // Handle Next Button
+  if (currentIndex < pageOrder.length - 1) {
+    const nextId = pageOrder[currentIndex + 1];
+    nextBtn.style.visibility = 'visible';
+    nextBtn.innerText = `${pageLabels[nextId]} →`;
+  } else {
+    nextBtn.style.visibility = 'hidden';
+  }
+}
+
+// Helper to navigate via buttons
+function navToAdjacent(step) {
+  const activePage = document.querySelector('.page-content.active').id.replace('page-', '');
+  const currentIndex = pageOrder.indexOf(activePage);
+  const targetId = pageOrder[currentIndex + step];
+  if (targetId) showPage(targetId);
+}
+
+// Update your existing showPage to call the update function
+function showPage(pageId) {
+  const pages = document.querySelectorAll('.page-content');
+  pages.forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  
+  const links = document.querySelectorAll('.nav a');
+  links.forEach(l => l.classList.remove('active'));
+
+  // Logic for mobile sidebar
+  document.getElementById("sidebar").classList.remove("active");
+  if(document.getElementById("sidebar-overlay")) {
+      document.getElementById("sidebar-overlay").classList.remove("active");
+  }
+
+  // Update our new navigation buttons
+  updateNavButtons(pageId);
+  
+  window.scrollTo(0, 0);
+}
+
+// Initialize the buttons on first load
+updateNavButtons('intro');
 
 function liveSearch() {
   const activeInput = document.activeElement;
