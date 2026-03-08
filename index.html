@@ -176,42 +176,64 @@ footer { text-align: center; padding: 40px; color: var(--subtle); font-size: 13p
   box-sizing: border-box;
   margin-left: 0; 
 }
+/* Add this outside the media query first */
+.menu-btn {
+  display: none; /* Hidden on desktop */
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 0;
+  margin-right: 15px;
+}
+#sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Dim the content behind */
+  z-index: 999; /* Just below the sidebar (which is 1000) */
+  backdrop-filter: blur(2px); /* Optional: adds a nice glass effect */
+}
+
+#sidebar-overlay.active {
+  display: block;
+}
 @media (max-width: 768px) {
   .menu-btn {
-    display: inline-block;
+    display: block; /* Shown on mobile */
   }
+
   .sidebar {
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
+    transform: translateX(-100%); /* Hide off-screen by default */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 260px; /* Slightly wider for better mobile tap targets */
   }
   
-  .sidebar.collapsed { 
+  /* This class will be toggled via JS */
+  .sidebar.active { 
     transform: translateX(0);
-    box-shadow: 0 0 50px rgba(0,0,0,0.7);
+    box-shadow: 20px 0 50px rgba(0,0,0,0.8);
   }
 
-  .header, .main-wrapper {
-    width: 100%;
-    left: 0;
+  .main-wrapper {
     margin-left: 0;
-    padding: 0 15px;
+    width: 100%;
   }
 
+  .page-topbar {
+    padding: 0 20px; /* Tighter padding for mobile */
+    justify-content: flex-start;
+  }
 
   .search-input {
-    width: 130px; 
-  }
-  
-  #searchResults, #searchOverlay {
-    width: calc(100vw - 30px);
-    right: 15px;
+    width: 150px; 
   }
 
-  h1 { font-size: 28px; }
-  h2 { font-size: 22px; }
-  
-  .header > div {
-    display: none; 
+  .container {
+    padding: 20px;
   }
 }
   </style>
@@ -244,6 +266,9 @@ footer { text-align: center; padding: 40px; color: var(--subtle); font-size: 13p
 <div class="main-wrapper">
     
     <div class="page-topbar">
+      <button class="menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
       <div style="font-size: 13px; color: var(--subtle); text-transform: uppercase; letter-spacing: 1px;">
         Chris Mo • Ryan Xavier
       </div>
@@ -440,17 +465,28 @@ Then, at the bottom right of the page, there is a JSON block, where the raw metr
 
   <script>
     function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("collapsed");
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("sidebar-overlay");
+      
+      sidebar.classList.toggle("active");
+      overlay.classList.toggle("active");
     }
 
     function showPage(pageId) {
       const pages = document.querySelectorAll('.page-content');
       pages.forEach(p => p.classList.remove('active'));
       document.getElementById('page-' + pageId).classList.add('active');
+      
       const links = document.querySelectorAll('.nav a');
       links.forEach(l => l.classList.remove('active'));
+
+      // Close sidebar and remove overlay after navigation
+      document.getElementById("sidebar").classList.remove("active");
+      document.getElementById("sidebar-overlay").classList.remove("active");
+      
       window.scrollTo(0, 0);
     }
+
     function toggleSearchOverlay() {
   const overlay = document.getElementById('searchOverlay');
   const isHidden = overlay.style.display === 'none';
@@ -518,5 +554,6 @@ function liveSearch() {
   });
 }
   </script>
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
 </body>
 </html>
